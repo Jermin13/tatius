@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+@theme {
+  --color-vintage-cream: #F5F0E1;
+  --color-vintage-rose: #E8B4B8;
+  --color-vintage-sage: #B5C9A8;
+  --color-vintage-gold: #D4A574;
+  --color-vintage-navy: #2C3E50;
+  --font-family-vintage: 'Playfair Display', serif;
+}
+
+body {
+  background-color: var(--color-vintage-cream);
+  color: var(--color-vintage-navy);
+  font-family: 'Lato', sans-serif;
+}
+
+.font-vintage {
+  font-family: 'Playfair Display', serif;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-100vh) rotate(10deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-200vh) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-80vh) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-160vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float linear forwards;
+}
+
+.animate-wobble {
+  animation: wobble ease-in-out infinite;
+}
+
+.animate-confetti {
+  animation: confetti linear forwards;
+  border-radius: 2px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
