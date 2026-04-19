@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 function YellowFlower({ position, delay, scale = 0.28 }) {
   return (
@@ -60,14 +60,17 @@ function GrassCluster({ position, delay, mirror }) {
 }
 
 function Fireflies() {
-  const fireflies = Array.from({ length: 25 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 70 + 10,
-    size: 2 + Math.random() * 3,
-    duration: 4 + Math.random() * 4,
-    delay: Math.random() * 6
-  }));
+  const fireflies = useMemo(() => 
+    Array.from({ length: 25 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 70 + 10,
+      size: 2 + Math.random() * 3,
+      duration: 8 + Math.random() * 8,
+      delay: Math.random() * 10,
+      opacity: 0.6 + Math.random() * 0.4
+    }))
+  , []);
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -84,7 +87,7 @@ function Fireflies() {
             boxShadow: `0 0 ${fly.size * 2}px ${fly.size}px rgba(255, 255, 100, 0.8)`,
             animation: `firefly-float ${fly.duration}s ease-in-out infinite`,
             animationDelay: `${fly.delay}s`,
-            opacity: 0.6 + Math.random() * 0.4
+            opacity: fly.opacity
           }}
         />
       ))}

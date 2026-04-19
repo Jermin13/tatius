@@ -9,6 +9,7 @@ import RomanticBackground from './components/RomanticBackground'
 import AdminGate from './components/AdminGate'
 import Footer from './components/Footer'
 import DailyGameButton from './components/DailyGame'
+import FloatingLetter from './components/FloatingLetter'
 import GamePage from './pages/GamePage'
 
 function HomePage() {
@@ -25,6 +26,7 @@ function HomePage() {
       <div className="min-h-screen flex flex-col relative">
         <RomanticBackground />
         <FloatingDecorations isActive={showCarousel} />
+        <FloatingLetter />
         
         <Hero name={celebrantName} age={age} isUnlocked={showCarousel} />
         
