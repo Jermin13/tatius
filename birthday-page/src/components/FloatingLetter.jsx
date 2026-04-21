@@ -90,54 +90,104 @@ function FloatingLetter() {
     }
   }, [])
 
+  const bubbleStyle = {
+    position: 'fixed',
+    width: '56px',
+    height: '56px',
+    borderRadius: '50%',
+    background: 'radial-gradient(circle, #1e3a5f, #050510)',
+    border: '2px solid #D4A574',
+    boxShadow: '0 0 20px rgba(212, 165, 116, 0.5)',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    filter: isHovered ? 'brightness(1.3) drop-shadow(0 0 12px rgba(212,165,116,0.8))' : 'none',
+    transition: 'filter 0.2s, box-shadow 0.2s'
+  }
+
+  const tooltipStyle = {
+    position: 'absolute',
+    right: '100%',
+    marginRight: '12px',
+    whiteSpace: 'nowrap',
+    padding: '6px 12px',
+    borderRadius: '8px',
+    fontSize: '14px',
+    color: 'white',
+    background: '#1e3a5f',
+    border: '1px solid rgba(212, 165, 116, 0.5)',
+    opacity: 0,
+    transform: 'translateX(10px)',
+    transition: 'opacity 0.2s, transform 0.2s',
+    pointerEvents: 'none'
+  }
+
   if (!isOpen) {
     return (
-      <button
-        onClick={handleOpen}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, #1e3a5f, #050510)',
-          border: '2px solid #D4A574',
-          boxShadow: '0 0 20px rgba(212, 165, 116, 0.5)',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          animation: 'floatRandom 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite',
-          animationPlayState: isHovered ? 'paused' : 'running',
-          filter: isHovered ? 'brightness(1.3) drop-shadow(0 0 12px rgba(212,165,116,0.8))' : 'none',
-          transition: 'filter 0.2s, box-shadow 0.2s'
-        }}
-      >
-        <span style={{ fontSize: '28px' }}>💌</span>
-        <span
-          className="absolute right-full mr-3 whitespace-nowrap px-3 py-1 rounded-lg text-sm text-white bg-[#1e3a5f] border border-[#D4A574]/50"
+      <>
+        <button
+          onClick={handleOpen}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           style={{
-            opacity: 0,
-            transform: 'translateX(10px)',
-            transition: 'opacity 0.2s, transform 0.2s',
-            pointerEvents: 'none'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '1'
-            e.currentTarget.style.transform = 'translateX(0)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '0'
-            e.currentTarget.style.transform = 'translateX(10px)'
+            ...bubbleStyle,
+            top: 0,
+            left: 0,
+            animation: 'floatRandom 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite',
+            animationPlayState: isHovered ? 'paused' : 'running'
           }}
         >
-          Una carta para ti 💛
-        </span>
-      </button>
+          <span style={{ fontSize: '28px' }}>💌</span>
+          <span
+            style={tooltipStyle}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '1'
+              e.currentTarget.style.transform = 'translateX(0)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '0'
+              e.currentTarget.style.transform = 'translateX(10px)'
+            }}
+          >
+            Una carta para ti 💛
+          </span>
+        </button>
+        <button
+          onClick={handleOpen}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          style={{
+            ...bubbleStyle,
+            bottom: '24px',
+            left: '24px',
+            animation: 'floatBubble 3s ease-in-out infinite',
+            animationDelay: '0.5s'
+          }}
+        >
+          <span style={{ fontSize: '28px' }}>🎂</span>
+          <span
+            style={{ ...tooltipStyle, bottom: '100%', top: '100%', marginTop: '8px', marginRight: 0, right: 'auto', left: '100%', marginLeft: '12px' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '1'
+              e.currentTarget.style.transform = 'translateX(0)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '0'
+              e.currentTarget.style.transform = 'translateX(10px)'
+            }}
+          >
+            ¡Feliz cumpleaños! 🎉
+          </span>
+        </button>
+        <style>{`
+          @keyframes floatBubble {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+          }
+        `}</style>
+      </>
     )
   }
 
@@ -189,6 +239,31 @@ function FloatingLetter() {
         >
           Una carta para ti 💛
         </span>
+      </button>
+      <button
+        onClick={handleOpen}
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          left: '24px',
+          width: '56px',
+          height: '56px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, #1e3a5f, #050510)',
+          border: '2px solid #D4A574',
+          boxShadow: '0 0 20px rgba(212, 165, 116, 0.5)',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          animation: 'none',
+          filter: 'none',
+          pointerEvents: 'none',
+          opacity: 0
+        }}
+      >
+        <span style={{ fontSize: '28px' }}>🎂</span>
       </button>
 
       <div
