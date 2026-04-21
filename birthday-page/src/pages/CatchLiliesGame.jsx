@@ -244,7 +244,13 @@ function CatchLiliesGame() {
         if (objBottom > playerTop && obj.y < playerTop + CANASTA_HEIGHT) {
           if (obj.x + OBJ_SIZE > playerX && obj.x < playerX + CANASTA_WIDTH) {
             if (obj.type === 'thorn') {
-              setLives(l => l - 1)
+              setLives(l => {
+                const newLives = l - 1
+                if (newLives <= 0) {
+                  setGameState('gameover')
+                }
+                return newLives
+              })
             } else {
               setScore(s => s + 1)
             }
@@ -252,13 +258,8 @@ function CatchLiliesGame() {
           }
         }
       }
-      return updated
+return updated
     })
-
-    if (lives <= 0) {
-      setGameState('gameover')
-      return
-    }
 
     animationRef.current = requestAnimationFrame(gameLoop)
   }, [gameState, playerX, spawnObject, lives, score])
