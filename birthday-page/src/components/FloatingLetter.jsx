@@ -32,7 +32,7 @@ function createKeyframes(waypoints) {
 }
 
 function FloatingLetter() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [openLetter, setOpenLetter] = useState(null)
   const [envelopePhase, setEnvelopePhase] = useState('closed')
   const [isHovered, setIsHovered] = useState(false)
 
@@ -72,9 +72,16 @@ function FloatingLetter() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const handleOpen = () => {
-    if (isOpen) return
-    setIsOpen(true)
+  const handleOpenLetter1 = () => {
+    if (openLetter) return
+    setOpenLetter('letter1')
+    openTimeout1.current = setTimeout(() => setEnvelopePhase('opening'), 100)
+    openTimeout2.current = setTimeout(() => setEnvelopePhase('letterVisible'), 900)
+  }
+
+  const handleOpenLetter2 = () => {
+    if (openLetter) return
+    setOpenLetter('letter2')
     openTimeout1.current = setTimeout(() => setEnvelopePhase('opening'), 100)
     openTimeout2.current = setTimeout(() => setEnvelopePhase('letterVisible'), 900)
   }
@@ -84,7 +91,7 @@ function FloatingLetter() {
     if (openTimeout2.current) clearTimeout(openTimeout2.current)
     setEnvelopePhase('closed')
     setTimeout(() => {
-      setIsOpen(false)
+      setOpenLetter(null)
     }, 400)
   }
 
@@ -129,11 +136,11 @@ function FloatingLetter() {
     pointerEvents: 'none'
   }
 
-  if (!isOpen) {
+  if (!openLetter) {
     return (
       <>
         <button
-          onClick={handleOpen}
+          onClick={handleOpenLetter1}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           style={{
@@ -160,7 +167,7 @@ function FloatingLetter() {
           </span>
         </button>
         <button
-          onClick={handleOpen}
+          onClick={handleOpenLetter2}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           style={{
@@ -197,9 +204,6 @@ function FloatingLetter() {
   return (
     <>
       <button
-        onClick={handleOpen}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         style={{
           position: 'fixed',
           top: 0,
@@ -216,39 +220,19 @@ function FloatingLetter() {
           justifyContent: 'center',
           zIndex: 1000,
           animation: 'none',
-          filter: isHovered ? 'brightness(1.3) drop-shadow(0 0 12px rgba(212,165,116,0.8))' : 'none',
-          transition: 'filter 0.2s, box-shadow 0.2s',
           pointerEvents: 'none',
           opacity: 0
         }}
       >
         <span style={{ fontSize: '28px' }}>💌</span>
-        <span
-          className="absolute right-full mr-3 whitespace-nowrap px-3 py-1 rounded-lg text-sm text-white bg-[#1e3a5f] border border-[#D4A574]/50"
-          style={{
-            opacity: 0,
-            transform: 'translateX(10px)',
-            transition: 'opacity 0.2s, transform 0.2s',
-            pointerEvents: 'none'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '1'
-            e.currentTarget.style.transform = 'translateX(0)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '0'
-            e.currentTarget.style.transform = 'translateX(10px)'
-          }}
-        >
-          Una carta para ti 💛
-        </span>
       </button>
       <button
-        onClick={handleOpen}
         style={{
           position: 'fixed',
-          bottom: '24px',
-          left: '24px',
+          top: 0,
+          left: 0,
+          marginTop: '64px',
+          marginLeft: '64px',
           width: '56px',
           height: '56px',
           borderRadius: '50%',
@@ -261,7 +245,6 @@ function FloatingLetter() {
           justifyContent: 'center',
           zIndex: 1000,
           animation: 'none',
-          filter: 'none',
           pointerEvents: 'none',
           opacity: 0
         }}
@@ -372,7 +355,7 @@ function FloatingLetter() {
           </div>
 
           {envelopePhase === 'letterVisible' && (
-            <Letter onClose={handleClose} />
+            <Letter onClose={handleClose} letterType={openLetter} />
           )}
         </div>
       </div>
@@ -387,11 +370,14 @@ function FloatingLetter() {
   )
 }
 
-function Letter({ onClose }) {
+function Letter({ onClose, letterType }) {
   const [text, setText] = useState('')
   const [showCursor, setShowCursor] = useState(true)
 
-  const letterText = "Hola mi amor, espero que hayas tenido un lindo domingo 🌸 cada día estamos más cerca de un día muy especial, pero créeme que disfruto y me emociona tanto estar compartiendo un momento dentro de tu hermosa vida ✨ eres una bendición para todos los que rodeas"
+  const letter1Text = "Hola mi amor, espero que hayas tenido un lindo domingo 🌸 cada día estamos más cerca de un día muy especial, pero créeme que disfruto y me emociona tanto estar compartiendo un momento dentro de tu hermosa vida ✨ eres una bendición para todos los que rodeas"
+  const letter2Text = "Mi amor cada vez mas cerca a la hora esperada, te amo mucho que emoción que alegria en mi corazon, no puedo creer lo privilegiado que soy de tenerte en mi vida, cada momento a tu lado es un regalo ✨ te amo infinitamente 💛"
+
+  const letterText = letterType === 'letter2' ? letter2Text : letter1Text
 
   useEffect(() => {
     let index = 0
