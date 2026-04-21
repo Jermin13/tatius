@@ -176,7 +176,7 @@ function FloatingLetter() {
         >
           <span style={{ fontSize: '28px' }}>🎂</span>
           <span
-            style={{ ...tooltipStyle, bottom: '100%', top: '100%', marginTop: '8px', marginRight: 0, right: 'auto', left: '100%', marginLeft: '12px' }}
+            style={tooltipStyle}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '1'
               e.currentTarget.style.transform = 'translateX(0)'
