@@ -5,6 +5,7 @@ import CountdownTimer from './components/CountdownTimer'
 import GreetingCarousel from './components/GreetingCarousel'
 import PhotoCollage from './components/PhotoCollage'
 import MusicPlayer from './components/MusicPlayer'
+import MusicPlaylist from './components/MusicPlaylist'
 import FloatingDecorations from './components/FloatingDecorations'
 import RomanticBackground from './components/RomanticBackground'
 import AdminGate from './components/AdminGate'
@@ -49,6 +50,7 @@ function HomePage() {
               <GreetingCarousel />
               <PhotoCollage />
               <MusicPlayer />
+              <MusicPlaylist />
             </>
           )}
         </div>
