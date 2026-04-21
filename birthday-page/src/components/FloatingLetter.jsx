@@ -162,8 +162,9 @@ function FloatingLetter() {
             ...bubbleStyle,
             bottom: '24px',
             left: '24px',
-            animation: 'floatBubble 3s ease-in-out infinite',
-            animationDelay: '0.5s'
+            animation: 'floatRandom 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite',
+            animationDelay: '0s',
+            animationPlayState: isHovered ? 'paused' : 'running'
           }}
         >
           <span style={{ fontSize: '28px' }}>🎂</span>
@@ -181,12 +182,7 @@ function FloatingLetter() {
             ¡Feliz cumpleaños! 🎉
           </span>
         </button>
-        <style>{`
-          @keyframes floatBubble {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-          }
-        `}</style>
+        
       </>
     )
   }
