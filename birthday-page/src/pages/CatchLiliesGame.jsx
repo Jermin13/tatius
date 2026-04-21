@@ -147,6 +147,7 @@ function CatchLiliesGame() {
   const [lives, setLives] = useState(3)
   const [playerX, setPlayerX] = useState(AREA_WIDTH / 2 - CANASTA_WIDTH / 2)
   const [objects, setObjects] = useState([])
+  const [hasShownChiCode, setHasShownChiCode] = useState(false)
   
   const keysPressed = useRef({ left: false, right: false })
   const lastTimeRef = useRef(0)
@@ -173,6 +174,7 @@ function CatchLiliesGame() {
     setObjects([])
     objIdRef.current = 0
     setGameState('waiting')
+    setHasShownChiCode(false)
   }, [])
 
   const gameLoop = useCallback((timestamp) => {
@@ -216,7 +218,13 @@ function CatchLiliesGame() {
                 return newLives
               })
             } else {
-              setScore(s => s + 1)
+              setScore(s => {
+                const newScore = s + 1
+                if (newScore >= 100 && !hasShownChiCode) {
+                  setHasShownChiCode(true)
+                }
+                return newScore
+              })
             }
             updated.splice(i, 1)
           }
@@ -309,7 +317,14 @@ return updated
         </p>
 
         <div className="flex justify-between w-full max-w-[360px] mb-2 px-2">
-          <span className="text-[#D4A574] font-semibold">Puntos: {score}</span>
+          <div>
+            <span className="text-[#D4A574] font-semibold">Puntos: {score}</span>
+            {hasShownChiCode && (
+              <p className="text-xs text-[#D4A574] mt-1" style={{ textShadow: '0 0 8px rgba(212,165,116,0.6)' }}>
+                Código de juego: "chi"
+              </p>
+            )}
+          </div>
           <span><Hearts lives={lives} /></span>
         </div>
 
