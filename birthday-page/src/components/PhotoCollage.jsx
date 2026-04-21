@@ -46,12 +46,8 @@ const MEDIA_ITEMS = [
 
 function PhotoCollage() {
   const [selectedMedia, setSelectedMedia] = useState(null);
-  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
 
-  const openLightbox = (media, e) => {
-    if (e) {
-      setClickPosition({ x: e.clientX, y: e.clientY });
-    }
+  const openLightbox = (media) => {
     setSelectedMedia(media);
   };
   const closeLightbox = () => setSelectedMedia(null);
@@ -82,7 +78,7 @@ function PhotoCollage() {
                   transform: `rotate(${pos.rotation}deg)`,
                   marginTop: pos.offsetY === 0 ? '0' : `${pos.offsetY/4}%`
                 }}
-                onClick={(e) => openLightbox(media, e)}
+                onClick={() => openLightbox(media)}
               >
                 <div className="relative bg-white p-2 pb-10 rounded-lg shadow-md border border-[#D4A574]/20">
                   <img
@@ -101,8 +97,9 @@ function PhotoCollage() {
         </div>
 
         {selectedMedia && (
-          <div 
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ backgroundColor: 'rgba(0,0,0,0.85)' }}
             onClick={closeLightbox}
           >
             <button
@@ -115,12 +112,11 @@ function PhotoCollage() {
             </button>
             
             <div 
-              className="bg-white p-3 rounded shadow-2xl max-w-sm w-full relative"
+              className="bg-white p-3 rounded shadow-2xl relative"
               style={{
-                position: 'absolute',
-                left: clickPosition.x,
-                top: clickPosition.y,
-                transform: 'translate(-50%, -50%)'
+                width: 'min(480px, 90vw)',
+                maxHeight: '90vh',
+                overflowY: 'auto',
               }}
               onClick={(e) => e.stopPropagation()}
             >
