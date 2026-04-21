@@ -38,6 +38,8 @@ function LoveChest() {
                 src={cofreImg}
                 alt="Cofre del tesoro"
                 style={{
+                  display: 'block',
+                  margin: '0 auto',
                   width: '180px',
                   height: 'auto',
                   filter: 'drop-shadow(0 0 20px rgba(212,165,116,0.3))',
@@ -51,7 +53,7 @@ function LoveChest() {
               fontSize: 'clamp(1.4rem, 4vw, 2rem)',
               marginBottom: '8px',
             }}>
-              Cofre de los Mochis
+              Cofre secreto
             </h2>
 
             <p style={{

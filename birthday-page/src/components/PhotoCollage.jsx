@@ -112,21 +112,22 @@ function PhotoCollage() {
             </button>
             
             <div 
-              className="bg-white p-3 rounded shadow-2xl relative"
+              className="bg-white p-3 rounded shadow-2xl relative flex flex-col"
               style={{
                 width: 'min(480px, 90vw)',
-                maxHeight: '90vh',
-                overflowY: 'auto',
+                height: '80vh',
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={selectedMedia.src}
-                alt={selectedMedia.caption}
-                className="w-full h-auto max-h-[65vh] object-contain rounded-sm"
-              />
-              <div className="mt-3 text-center">
-                <p className="text-[#D4A574] text-sm md:text-base leading-tight">
+              <div className="flex-1 w-full relative bg-black/5 rounded-sm overflow-hidden flex items-center justify-center">
+                <img
+                  src={selectedMedia.src}
+                  alt={selectedMedia.caption}
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+              </div>
+              <div className="mt-3 text-center flex items-center justify-center min-h-[4rem] shrink-0">
+                <p className="text-[#D4A574] text-sm md:text-base leading-tight m-0">
                   {selectedMedia.description}
                 </p>
               </div>
