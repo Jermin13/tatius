@@ -15,7 +15,20 @@ function DailyGameButton() {
         </span>
       </button>
       <p className="text-white/50 text-sm mt-3">
-        Día 1 de 4
+        Juego 1
+      </p>
+      
+      <button
+        onClick={() => navigate('/juego-lirios')}
+        className="group px-10 py-4 mt-4 bg-gradient-to-r from-[#FFD700] to-[#D4A574] text-white font-vintage text-xl rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
+      >
+        <span className="inline-flex items-center gap-2">
+          <span className="text-2xl">🌸</span>
+          Atrapa los Lirios
+        </span>
+      </button>
+      <p className="text-white/50 text-sm mt-3">
+        Juego 2
       </p>
     </div>
   )

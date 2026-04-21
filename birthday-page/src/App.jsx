@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 import DailyGameButton from './components/DailyGame'
 import FloatingLetter from './components/FloatingLetter'
 import GamePage from './pages/GamePage'
+import CatchLiliesGame from './pages/CatchLiliesGame'
 
 function HomePage() {
   const celebrantName = 'Tatiana Santander'
@@ -63,6 +64,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/juego" element={<GamePage />} />
+      <Route path="/juego-lirios" element={<CatchLiliesGame />} />
     </Routes>
   )
 }
