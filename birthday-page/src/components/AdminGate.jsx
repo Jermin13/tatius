@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 const ADMIN_CODE = 'tatius';
 const STORAGE_KEY = 'birthday_admin_auth';
 
-function AdminGate({ children, onAdminChange }) {
+function AdminGate({ children, onAdminChange, onAdminUnlock }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [inputValue, setInputValue] = useState('');
@@ -14,9 +14,12 @@ function AdminGate({ children, onAdminChange }) {
     const storedAuth = localStorage.getItem(STORAGE_KEY);
     if (storedAuth === 'true') {
       setIsAdmin(true);
+      if (onAdminUnlock) {
+        onAdminUnlock();
+      }
     }
     setIsChecking(false);
-  }, []);
+  }, [onAdminUnlock]);
 
   useEffect(() => {
     if (onAdminChange) {
@@ -60,11 +63,14 @@ function AdminGate({ children, onAdminChange }) {
       setError('');
       setShowInput(false);
       setInputValue('');
+      if (onAdminUnlock) {
+        onAdminUnlock();
+      }
     } else {
       setError('Código incorrecto');
       setTimeout(() => setError(''), 2000);
     }
-  }, [inputValue]);
+  }, [inputValue, onAdminUnlock]);
 
   const handleLogout = useCallback(() => {
     setIsAdmin(false);

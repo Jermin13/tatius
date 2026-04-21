@@ -1,30 +1,64 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import Abrazado from '../assets/playlist/Abrazado a Ti.mp3'
+import Amarte from '../assets/playlist/Amarte Es Un Placer.mp3'
+import AmorCompleto from '../assets/playlist/Amor Completo.mp3'
+import Inolvidable from '../assets/playlist/Inolvidable.mp3'
+import TeAmoyMas from '../assets/playlist/Te Amo Y Más.mp3'
+import TeQuiero from '../assets/playlist/Te Quiero Tanto .mp3'
+import Nadie from '../assets/playlist/nadie va pensar en ti mejor que yo .mp3'
 
-const PLAYLIST = [
-  { id: 1, letter: 'T', title: 'Te busco en cada pensamiento', subtitle: 'Cuando el día se hace largo...' },
-  { id: 2, letter: 'A', title: 'Amor en silencio', subtitle: 'Mi corazón te tiene guardada' },
-  { id: 3, letter: 'T', title: 'Teclado sin ti', subtitle: 'Escribir es diferente cuando no estás...' },
-  { id: 4, letter: 'I', title: 'Ilusión constante', subtitle: 'Cada mañana trae tu recuerdo' },
-  { id: 5, letter: 'A', title: 'Aurora de tu sonrisa', subtitle: 'Ilumina hasta lo más oscuro' },
-  { id: 6, letter: 'N', title: 'Noche contigo', subtitle: ' Mi sueño favorito' },
-  { id: 7, letter: 'A', title: 'Alma competa', subtitle: 'Encontré mi otra mitad' },
+const SONGS = [
+  { id: 1, src: TeAmoyMas, title: 'Te Amo Y Más', artist: 'Libro de la Vida' },
+  { id: 2, src: Abrazado, title: 'Abrazado a Ti', artist: 'Kevin Kaarl' },
+  { id: 3, src: TeQuiero, title: 'Te Quiero Tanto', artist: 'Kevin Kaarl' },
+  { id: 4, src: Inolvidable, title: 'Inolvidable', artist: 'Reik' },
+  { id: 5, src: Amarte, title: 'Amarte Es Un Placer', artist: 'Luis Miguel' },
+  { id: 6, src: Nadie, title: 'Nadie Va Pensar En Ti', artist: 'Ed Maverick' },
+  { id: 7, src: AmorCompleto, title: 'Amor Completo', artist: 'Mon Laferte' },
 ]
 
 function MusicPlaylist() {
-  const [activeIndex, setActiveIndex] = useState(0)
+  const audioRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const togglePlay = (index) => {
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.src = ''
+      }
+    }
+  }, [])
+
+  const togglePlay = (index, songSrc) => {
+    const audio = audioRef.current
+    if (!audio) return
+
     if (activeIndex === index) {
-      setIsPlaying(!isPlaying)
+      if (isPlaying) {
+        audio.pause()
+        setIsPlaying(false)
+      } else {
+        audio.play()
+        setIsPlaying(true)
+      }
     } else {
+      audio.src = songSrc
+      audio.play()
       setActiveIndex(index)
       setIsPlaying(true)
     }
   }
 
+  const handleEnded = () => {
+    setIsPlaying(false)
+  }
+
   return (
     <section className="py-12 px-4">
+      <audio ref={audioRef} onEnded={handleEnded} />
+      
       <div className="max-w-[560px] mx-auto">
         <h2 style={{
           color: '#D4A574',
@@ -92,10 +126,10 @@ function MusicPlaylist() {
           </div>
 
           <div style={{ padding: '8px 0' }}>
-            {PLAYLIST.map((song, index) => (
+            {SONGS.map((song, index) => (
               <div
                 key={song.id}
-                onClick={() => togglePlay(index)}
+                onClick={() => togglePlay(index, song.src)}
                 style={{
                   height: '64px',
                   display: 'flex',
@@ -135,7 +169,7 @@ function MusicPlaylist() {
                     color: '#D4A574',
                     fontWeight: 'bold',
                   }}>
-                    {song.letter}
+                    {song.title.charAt(0)}
                   </span>
                 </div>
 
@@ -159,7 +193,7 @@ function MusicPlaylist() {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                   }}>
-                    {song.subtitle}
+                    {song.artist}
                   </p>
                 </div>
 

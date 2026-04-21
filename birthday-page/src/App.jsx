@@ -1,11 +1,14 @@
+import { useState, useEffect, useCallback } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useBirthdayTimer } from './hooks/useBirthdayTimer'
+import PopupAnnouncement from './components/PopupAnnouncement'
 import Hero from './components/Hero'
 import CountdownTimer from './components/CountdownTimer'
 import GreetingCarousel from './components/GreetingCarousel'
 import PhotoCollage from './components/PhotoCollage'
 import MusicPlayer from './components/MusicPlayer'
 import MusicPlaylist from './components/MusicPlaylist'
+import LoveChest from './components/LoveChest'
 import FloatingDecorations from './components/FloatingDecorations'
 import RomanticBackground from './components/RomanticBackground'
 import AdminGate from './components/AdminGate'
@@ -21,6 +24,17 @@ function HomePage() {
   const birthdayDate = '2026-04-21T00:00:00'
   
   const { isUnlocked, isClient } = useBirthdayTimer(birthdayDate)
+  const [showPopup, setShowPopup] = useState(false)
+
+  useEffect(() => {
+    if (isUnlocked && isClient) {
+      setShowPopup(true)
+    }
+  }, [isUnlocked, isClient])
+
+  const handleAdminUnlock = useCallback(() => {
+    setShowPopup(true)
+  }, [])
 
   const renderContent = (isAdmin) => {
     const showCarousel = (isUnlocked || isAdmin) && isClient
@@ -29,7 +43,7 @@ function HomePage() {
       <div className="min-h-screen flex flex-col relative">
         <RomanticBackground />
         <FloatingDecorations isActive={showCarousel} />
-        <FloatingLetter />
+        {!showCarousel && <FloatingLetter />}
         
         <Hero name={celebrantName} age={age} isUnlocked={showCarousel} />
         
@@ -51,6 +65,7 @@ function HomePage() {
               <PhotoCollage />
               <MusicPlayer />
               <MusicPlaylist />
+              <LoveChest />
             </>
           )}
         </div>
@@ -60,7 +75,12 @@ function HomePage() {
     )
   }
 
-  return <AdminGate>{renderContent}</AdminGate>
+  return (
+    <>
+      <AdminGate onAdminUnlock={handleAdminUnlock}>{renderContent}</AdminGate>
+      <PopupAnnouncement isOpen={showPopup} onClose={() => setShowPopup(false)} />
+    </>
+  )
 }
 
 function App() {
