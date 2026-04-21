@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import CountdownTimer from './components/CountdownTimer'
 import GreetingCarousel from './components/GreetingCarousel'
 import PhotoCollage from './components/PhotoCollage'
+import MusicPlayer from './components/MusicPlayer'
 import FloatingDecorations from './components/FloatingDecorations'
 import RomanticBackground from './components/RomanticBackground'
 import AdminGate from './components/AdminGate'
@@ -47,6 +48,7 @@ function HomePage() {
             <>
               <GreetingCarousel />
               <PhotoCollage />
+              <MusicPlayer />
             </>
           )}
         </div>
